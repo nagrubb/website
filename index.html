@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://use.fontawesome.com/79a7b323ac.js"></script>
+  <style>
+  .nav-item {
+   margin-top:40px;
+   margin-bottom:40px;
+   font-family: "proxima-nova";
+   font-size: 20px;
+  }
+
+  .nav-option {
+   font-weight: 600;
+  }
+
+  .nav-title {
+   font-weight: 500;
+   letter-spacing: .10em;
+  }
+
+  a.nav-link {
+    color:black;
+    padding-right: 5px;
+    padding-left: 5px
+  }
+
+  a.nav-link:hover {
+    color:black;
+    border-bottom: 3px solid DodgerBlue;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    text-decoration: none;
+  }
+
+  a.social-link {
+    color:black;
+  }
+
+  a.social-link:hover {
+    color:white;
+  }
+
+  .wrapper {
+      min-height: 100%;
+      height: auto;
+      margin: 0 auto -100px;
+      padding-bottom: 100px;
+  }
+
+  .work_entry {
+   background-color: #F0FFFF; /* Azure Blue */
+   margin-left: -12px;
+   margin-right: -12px;
+  }
+
+  .work-diagram {
+   margin-bottom: 50px;
+  }
+
+  .work_logo {
+    height: 30px;
+  }
+
+  .work-divider {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .profile-picture {
+    height: 100%;
+  }
+
+  .profile-text {
+    font-family: "Beautifulwebtype";
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: .10em;
+  }
+  #name_padding {
+   width: 80px;
+  }
+  #brand_logs {
+   margin-top:20px;
+  }
+
+  footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 40px;
+    align-content: center;
+    background-color: #55acee;
+    text-align: center;
+  }
+
+  .social-icon {
+   margin-top: 3px;
+  }
+
+  .custom-bullet li {
+      display: block;
+  }
+
+  .custom-bullet li:before
+  {
+      /*Using a Bootstrap glyphicon as the bullet point*/
+      content: "\e080";
+      font-family: 'Glyphicons Halflings';
+      font-size: 9px;
+      float: left;
+      margin-top: 4px;
+      margin-left: -17px;
+      color: #CCCCCC;
+      margin: 20px 0;
+  }
+  </style>
+  <title>Nathan Grubb</title>
+ </head>
+ <body>
+  <div class="container-fluid">
+   <div id="navdiv" class="row">
+    <div id="name" class="col-sm-6 nav-item nav-title">
+     <table>
+      <tr>
+       <td><div id="name_padding"></div></td>
+       <td><a class="nav-link" href="/">Nathan Grubb</a></td>
+      </tr>
+     </table>
+    </div>
+    <div class="col-sm-6 nav-item nav-option text-right">
+      <a class="nav-link" href="/">Sandbox</a>
+      <a class="nav-link" href="/">Contact</a>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-sm-4">
+     <div class="work_entry">
+      <img class="img-responsive work-diagram" src="bb_work.png"/>
+      <img class="img-responsive center-block work_logo" src="bb_logo.png"/>
+     </div>
+    </div>
+    <div class="col-sm-4">
+     <div class="work_entry">
+      <img class="img-responsive work-diagram" src="msft_work.png"/>
+      <img class="img-responsive center-block work_logo" style="margin-top:-5px;height:35px" src="msft_logo.png"/>
+     </div>
+    </div>
+    <div class="col-sm-4">
+     <div class="work_entry">
+      <img class="img-responsive work-diagram" src="axon_work.png"/>
+      <img class="img-responsive center-block work_logo" style="margin-top:-40px;height:70px" src="taser_axon_logo.png"/>
+     </div>
+    </div>
+   </div>
+   <div class="row text-center work-divider">
+     <img src="http://trade.gov/images/2p_temp_5.1links/divider.jpg" />
+   </div>
+   <div class="row">
+    <div class="col-sm-5 text-right profile-text">
+     My name is Nathan Grubb and I'm a professional software engineer. Currently, I work at Taser International in their
+     Axon division writing software for their next generation of police cameras. Outside of work I'm always playing with the latest
+     technologies though not always building products. Although my primary passion is definitely with software
+     and technology, I have other passions outside of work including flying, motorsports, board sports, cooking and building
+     to name a few.
+    </div>
+    <div class="col-sm-2 text-center profile-picture"><img class="img-responsive center-block" src="minnion.png" />
+    </div>
+    <div class="col-sm-2 profile-text">
+     <ul>
+      <li>C/C++</li>
+      <li>Java</li>
+      <li>Python</li>
+      <li>JavaScript</li>
+      <li>C#</li>
+      <li>Wi-Fi</li>
+      <li>Classic Bluetooth</li>
+     </ul>
+    </div>
+    <div class="col-sm-2 profile-text">
+     <ul>
+      <li>Bluetooth Low Energy</li>
+      <li>Windows</li>
+      <li>Linux</li>
+      <li>Protocol Buffers</li>
+      <li>Electron</li>
+      <li>FFmpeg</li>
+      <li>Thrift</li>
+     </ul>
+    </div>
+   </div>
+  </div>
+  <footer>
+    <a class="btn social-icon social-link" href="https://github.com/silent-snowman"><i class="fa fa-github fa-lg"></i></a>
+    <a class="btn social-icon social-link" href="https://www.facebook.com/ngrubb2"><i class="fa fa-facebook fa-lg"></i></a>
+    <a class="btn social-icon social-link" href="https://www.linkedin.com/in/nathangrubb"><i class="fa fa-linkedin fa-lg"></i></a>
+    <a class="btn social-icon social-link" href="https://twitter.com/silent_snowman"><i class="fa fa-twitter fa-lg"></i></a>
+    <a class="btn social-icon social-link" href="https://nathancaty.slack.com/"><i class="fa fa-slack fa-lg"></i></a>
+    <!-- <a class="btn social-icon social-link" href="#"><i class="fa fa-envelope fa-lg"></i></a> !-->
+  </footer>
+ </body>
+</html>

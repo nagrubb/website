@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>NaSole</title>
+    <style>
+      html, body {
+        padding: 0;
+        margin: 0;
+        border: 0;
+      }
+
+      #console {
+        border: none;
+        overflow: auto;
+        outline: none;
+        resize: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        border-style: none;
+
+        color: #0095DD;
+        background-color: black;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body>
+  <textarea id="console" readonly="true"></textarea>
+  <script src="naSole.js"></script>
+  <script src="oneBusAway.js"></script>
+  <script>
+    ns = new NaSole(document, window, "console");
+
+    ns.addCommandHandler('languages', function(args) {
+      args = args.split(" ");
+      showProgramming = true;
+      showSpoken = true;
+      showMultiple = false;
+
+      showUsage = function() {
+        this.appendConsole("usage: languages <programming/spoken\n\n");
+      }.bind(this);
+
+      if (args.length != 2) {
+        showUsage();
+      } else {
+        type = args[1];
+
+        if (type == "programming") {
+          showProgramming = true;
+          showSpoken = false;
+        } else if (type == "spoken") {
+          showSpoken = true;
+          showProgramming = false;
+        } else {
+          showUsage();
+        }
+      }
+
+      if (showProgramming) {
+        this.appendConsole('Programming languages:\n');
+        this.appendConsole('C/C++\t');
+        this.appendConsole('Javascript\t');
+        this.appendConsole('Python\t');
+        this.appendConsole('C#\n');
+        this.appendConsole('Java\t');
+        this.appendConsole('Perl\t');
+        this.appendConsole('Visual Basic\t');
+        this.appendConsole('Powershell\n');
+        this.appendConsole('Bash\t');
+        this.appendConsole('Managed C++\t');
+        this.appendConsole('Perl\n');
+        showMultiple = true;
+      }
+
+      if (showSpoken) {
+        if (showMultiple) {
+          this.appendConsole("\n");
+        }
+
+        this.appendConsole('Spoken languages:\n');
+        this.appendConsole('English (Native)\n');
+        this.appendConsole('French (Limited)\n');
+        this.appendConsole('Spanish (Basic)\n');
+      }
+
+      this.appendConsole('\n');
+    }.bind(ns));
+    ns.addShortcut('lang', 'languages');
+
+    ns.addCommandHandler('technologies', function() {
+      this.appendConsole('Bluetooth (BR/EDR & LE)\n');
+      this.appendConsole('WiFi/TCPIP/Networking\n');
+      this.appendConsole('Thrift\n');
+      this.appendConsole('Protocol Buffers\n');
+      this.appendConsole('RESTful\n');
+      this.appendConsole('Jenkins\n');
+      this.appendConsole('SOAP\n');
+      this.appendConsole('AWS\n');
+      this.appendConsole('Ubuntu\n');
+      this.appendConsole('Windows Driver Frameworks (KMDF, UMDF, WDF)\n');
+      this.appendConsole('Silverlight\n');
+      this.appendConsole('Microsoft XNA');
+    }.bind(ns));
+    ns.addShortcut('tech', 'technologies');
+
+    ns.addCommandHandler('linkedin', function() {
+      window.open("https://www.linkedin.com/in/nathangrubb");
+    }.bind(ns));
+    ns.addShortcut('li', 'linkedin');
+
+    ns.addCommandHandler('facebook', function() {
+      window.open("https://www.facebook.com/ngrubb2");
+    }.bind(ns));
+    ns.addShortcut('fb', 'facebook');
+
+    ns.addCommandHandler('github', function() {
+      window.open("https://github.com/silent-snowman");
+    }.bind(ns));
+    ns.addShortcut('gh', 'github');
+
+    ns.addCommandHandler('nextBus', function() {
+      oba = new OneBusAway();
+      var homeStop = "1_74190";
+      var workStop = "1_1070";
+
+      console.log(workStop);
+      oba.getNextDepartures(workStop, function(busStop) {
+        console.log(busStop);
+	ns.appendConsole('BusStop: ' + busStop.info.name + '\n');
+
+	for (var i = 0; i < busStop.directionalRouteStops.length; ++i) {
+		routeStopTimes = busStop.directionalRouteStops[i];
+		if (routeStopTimes.stops.length > 0) {
+			ns.appendConsole(routeStopTimes.direction + '\n');
+			for (var j = 0; j < routeStopTimes.stops.length; ++j) {
+				stop = routeStopTimes.stops[j];
+				console.log(routeStopTimes);
+				info = routeStopTimes.route.shortName + ': ' + stop.date.toLocaleTimeString();
+				ns.appendConsole('\t' + info + '\n');
+			}	
+		}
+	}
+        ns.completeCommand();
+      });
+
+      return false;
+    }.bind(ns));
+    ns.focus();
+  </script>
+</body>
+</html>
