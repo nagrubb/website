@@ -43,7 +43,7 @@
       showMultiple = false;
 
       showUsage = function() {
-        this.appendConsole("usage: languages <programming/spoken\n\n");
+        this.appendConsole("usage: languages <programming/spoken>\n\n");
       }.bind(this);
 
       if (args.length != 2) {
@@ -84,12 +84,10 @@
         }
 
         this.appendConsole('Spoken languages:\n');
-        this.appendConsole('English (Native)\n');
-        this.appendConsole('French (Limited)\n');
-        this.appendConsole('Spanish (Basic)\n');
+        this.appendConsole('\tEnglish (Native)\n');
+        this.appendConsole('\tFrench (Limited)\n');
+        this.appendConsole('\tSpanish (Basic)\n');
       }
-
-      this.appendConsole('\n');
     }.bind(ns));
     ns.addShortcut('lang', 'languages');
 
@@ -105,7 +103,7 @@
       this.appendConsole('Ubuntu\n');
       this.appendConsole('Windows Driver Frameworks (KMDF, UMDF, WDF)\n');
       this.appendConsole('Silverlight\n');
-      this.appendConsole('Microsoft XNA');
+      this.appendConsole('Microsoft XNA\n');
     }.bind(ns));
     ns.addShortcut('tech', 'technologies');
 
@@ -124,30 +122,88 @@
     }.bind(ns));
     ns.addShortcut('gh', 'github');
 
-    ns.addCommandHandler('nextBus', function() {
+    ns.addCommandHandler('nextBus', function(args) {
       oba = new OneBusAway();
       var homeStop = "1_74190";
-      var workStop = "1_1070";
+      var fromWorkStop = "1_1070";
+      var toWorkStop = "1_910";
+      var direction = args.split(' ')[1];
 
-      console.log(workStop);
-      oba.getNextDepartures(workStop, function(busStop) {
-        console.log(busStop);
-	ns.appendConsole('BusStop: ' + busStop.info.name + '\n');
+      if (direction == undefined) {
+        direction = "tohome";
+      } else {
+        direction = String.toLowerCase(direction);
+      }
+      console.log(direction);
 
-	for (var i = 0; i < busStop.directionalRouteStops.length; ++i) {
-		routeStopTimes = busStop.directionalRouteStops[i];
-		if (routeStopTimes.stops.length > 0) {
-			ns.appendConsole(routeStopTimes.direction + '\n');
-			for (var j = 0; j < routeStopTimes.stops.length; ++j) {
-				stop = routeStopTimes.stops[j];
-				console.log(routeStopTimes);
-				info = routeStopTimes.route.shortName + ': ' + stop.date.toLocaleTimeString();
-				ns.appendConsole('\t' + info + '\n');
-			}	
-		}
-	}
-        ns.completeCommand();
-      });
+      var getOriginAndDestinationStops = function(origin, destination) {
+        var originStops = null;
+        var destinationStops = null;
+
+        var onMoreData = function() {
+          if (originStops != null && destinationStops != null) {
+            var routeFound = false;
+
+            console.log("HERE");
+            console.log(originStops);
+            console.log(destinationStops);
+
+            ns.appendConsole('BusStop: ' + originStops.info.name + '\n');
+          	for (var i = 0; i < originStops.directionalRouteStops.length; ++i) {
+          		routeStopTimes = originStops.directionalRouteStops[i];
+          		if (routeStopTimes.stops.length > 0) {
+          			for (var j = 0; j < routeStopTimes.stops.length; ++j) {
+          				stop = routeStopTimes.stops[j];
+                  info = null;
+
+                  for (var k = 0; k < destinationStops.directionalRouteStops.length; ++k) {
+                    for (var l = 0; l < destinationStops.directionalRouteStops[k].stops.length; ++l) {
+                      var possibleEndingStop = destinationStops.directionalRouteStops[k].stops[l];
+                      if (possibleEndingStop.stop.tripId == stop.stop.tripId) {
+                        delta_ms = possibleEndingStop.date.getTime() - stop.date.getTime();
+                        delta_time = new Date(delta_ms).toISOString().slice(11, -1);
+                        console.log(delta_time);
+                        info = routeStopTimes.route.shortName + ': ' + stop.date.toLocaleTimeString();
+                        info += " -> " + possibleEndingStop.date.toLocaleTimeString() + ' (' + (delta_time) + ')';
+                        routeFound = true;
+                        ns.appendConsole('\t' + info + '\n');
+                      }
+                    }
+                  }
+          			}
+          		}
+            }
+
+            if (!routeFound) {
+              ns.appendConsole("No route found!\n");
+            }
+            ns.completeCommand();
+          }
+        };
+
+        oba.getNextDepartures(origin, function(busStop) {
+          console.log('origin');
+          console.log(busStop);
+          originStops = busStop;
+          onMoreData();
+        });
+
+        oba.getNextDepartures(destination, function(busStop) {
+          console.log('destination');
+          console.log(busStop);
+          destinationStops = busStop;
+          onMoreData();
+        });
+      };
+
+      if (direction == "towork") {
+        getOriginAndDestinationStops(homeStop, toWorkStop);
+      } else {
+        if (direction != "tohome") {
+          ns.appendConsole("Unrecognized direction: " + direction + " defaulting direction as tohome.\n");
+        }
+        getOriginAndDestinationStops(fromWorkStop, homeStop);
+      }
 
       return false;
     }.bind(ns));

@@ -20,6 +20,13 @@ function DirectionalRouteStop(route, direction, stops) {
 
 function BusStop(data) {
   var routeLookup = {};
+
+  if (data == null) {
+    this.info = null;
+    this.directionalRouteStops = [];
+    return;
+  }
+
   var routeReferences = data.references.routes;
 
   for (var i = 0; i < routeReferences.length; i++) {
@@ -57,6 +64,7 @@ function OneBusAway(apiKey="test", domain="api.pugetsound.onebusaway.org", debug
       url: "http://" + this.domain + "/api/where/schedule-for-stop/" + stop_id + ".json?key=" + this.apiKey
     })
       .done(function(response) {
+        console.log(response);
         callback(new BusStop(response.data));
       })
       .fail(function(error) {
